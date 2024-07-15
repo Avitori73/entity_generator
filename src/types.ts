@@ -17,6 +17,7 @@ export interface Option {
   output?: string
   manyToOne?: ManyToOne[]
   oneToMany?: OneToMany[]
+  placeholder: Placeholder
 }
 
 export interface ManyToOne {
@@ -34,8 +35,13 @@ export interface OneToMany {
 export interface CommonPlaceholder {
   table_name: string
   entity: string
+  Entity: string
   EntityId: string
   entityId: string
   entity_id_: string
   ENTITY_ID: string
+}
+
+export interface Placeholder {
+  [key: string]: string
 }

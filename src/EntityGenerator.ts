@@ -1,7 +1,8 @@
 import * as changeCase from 'change-case'
+import * as rimraf from 'rimraf'
 import { EntityBuilder, EntityDaoImplBuilder, EntityHibernateXmlBuilder, IEntityDaoBuilder, NullEntityBuilder } from './builder'
 import { extractTable, omitColumns } from './parser'
-import type { CommonPlaceholder, Option, Table } from './types'
+import type { CommonPlaceholder, Option, Placeholder, Table } from './types'
 
 const baseCols = [
   'update_author_',
@@ -14,7 +15,7 @@ const baseCols = [
 
 export class EntityGenerator {
   table: Table
-  common: CommonPlaceholder
+  common: CommonPlaceholder & Placeholder
   output: string
 
   constructor(createSQL: string, option?: Option) {
@@ -30,7 +31,7 @@ export class EntityGenerator {
 
     this.output = option?.output || './output'
 
-    this.common = this.initCommonPlaceholder()
+    this.common = { ...this.initCommonPlaceholder(), ...option?.placeholder }
   }
 
   initCommonPlaceholder(): CommonPlaceholder {
@@ -39,7 +40,8 @@ export class EntityGenerator {
     return {
       table_name: tableName,
       entity_id_: primaryKey,
-      entity: changeCase.pascalCase(tableName),
+      entity: changeCase.camelCase(tableName),
+      Entity: changeCase.pascalCase(tableName),
       entityId: changeCase.camelCase(primaryKey),
       ENTITY_ID: changeCase.constantCase(primaryKey),
       EntityId: changeCase.pascalCase(primaryKey),
@@ -72,5 +74,10 @@ export class EntityGenerator {
 
   buildEntityHibernateXML() {
     new EntityHibernateXmlBuilder(this.table, this.common, this.output).build()
+  }
+
+  clearOutput() {
+    // clean output folder
+    rimraf.sync(this.output)
   }
 }

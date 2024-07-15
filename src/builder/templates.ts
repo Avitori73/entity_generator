@@ -318,7 +318,6 @@ public class Null{Entity} extends {Entity} {
 
 
 `
-
 export const ENTITY_DAO_IMPL_JAVA = `
 package jp.co.yamaha_motor.xm03.common.dao.impl;
 
@@ -392,7 +391,6 @@ public class {Entity}DaoImpl extends AbstractHibernateDao implements I{Entity}Da
 
 }
 `
-
 export const I_ENTITY_DAO_JAVA = `
 package jp.co.yamaha_motor.xm03.common.dao;
 
@@ -423,7 +421,6 @@ public interface I{Entity}Dao extends IHibernateDao {
      public boolean isExist(String {entityId});
 }
 `
-
 export const ENTITY_HBM_XML = `
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC

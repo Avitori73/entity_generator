@@ -1,17 +1,23 @@
-import type { CommonPlaceholder, Table } from '../types'
+import type { CommonPlaceholder, Placeholder, Table } from '../types'
+import { ENTITY_DAO_IMPL_JAVA } from './templates'
+import { builderBuild } from './utils'
 
 export class EntityDaoImplBuilder {
   table: Table
-  common: CommonPlaceholder
+  placeholders: Placeholder
   output: string
+  template: string
+  fileName: string
 
   constructor(table: Table, common: CommonPlaceholder, output: string) {
     this.table = table
-    this.common = common
+    this.placeholders = { ...common }
     this.output = output
+    this.template = ENTITY_DAO_IMPL_JAVA
+    this.fileName = '{Entity}DaoImpl.java'
   }
 
-  build() {
-
+  async build() {
+    await builderBuild(this.fileName, this.template, this.placeholders, this.output)
   }
 }

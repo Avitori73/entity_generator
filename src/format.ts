@@ -22,3 +22,8 @@ export async function formatFiles() {
     await fs.writeFile(file, formatted)
   }
 }
+
+export async function formatForJava(javaContent: string) {
+  const formatted = await format(javaContent, { ...prettierConfig })
+  return formatted
+}

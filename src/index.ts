@@ -1,5 +1,4 @@
-import { formatFiles } from './format'
-import { extractTable } from './parser'
+import { EntityGenerator } from './EntityGenerator'
 
 const ddl = `
 CREATE TABLE cmm_main_reward_rule (
@@ -23,5 +22,13 @@ CREATE TABLE cmm_main_reward_rule (
 );
 `
 
-formatFiles()
-extractTable(ddl)
+const entityGenerator = new EntityGenerator(ddl, {
+  placeholder: {
+    author: 'zhangjr',
+  },
+})
+// clear output folder
+entityGenerator.clearOutput()
+entityGenerator.buildIEntityDao()
+entityGenerator.buildNullEntity()
+entityGenerator.buildEntityDaoImpl()
