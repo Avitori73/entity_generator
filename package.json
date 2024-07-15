@@ -36,7 +36,8 @@
     "start": "tsx src/index.ts",
     "test": "vitest",
     "typecheck": "tsc --noEmit",
-    "watch": "tsx watch src/index.ts"
+    "watch": "tsx watch src/index.ts",
+    "fix": "eslint --fix ."
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.22.2",
