@@ -11,6 +11,7 @@ const opt = {
 }
 
 async function main() {
+  const refs = await import('../refs.config.json')
   const createSQL = await fsp.readFile('./create.sql', 'utf-8')
   if (!createSQL) {
     t.error('create.sql not found!')
@@ -23,7 +24,7 @@ async function main() {
   for (const sql of createSQLs) {
     if (sql.trim() === '')
       continue
-    generators.push(new EntityGenerator(sql, opt).build())
+    generators.push(new EntityGenerator(sql, { ...opt, ...refs }).build())
   }
   await Promise.all(generators)
   t.success('All done!')

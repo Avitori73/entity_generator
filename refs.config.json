@@ -1,0 +1,63 @@
+{
+  "manyToOne": {
+    "cmm_parts_campaign_component": [
+      {
+        "column": "campaign_list_id_",
+        "name": "cmmPartsCampaignList",
+        "clz": "CmmPartsCampaignList"
+      }
+    ],
+    "cmm_parts_campaign_supplier": [
+      {
+        "column": "campaign_list_id_",
+        "name": "cmmPartsCampaignList",
+        "clz": "CmmPartsCampaignList"
+      }
+    ],
+    "cmm_main_reward_rule": [
+      {
+        "column": "campaign_component_id_",
+        "name": "cmmPartsCampaignComponent",
+        "clz": "CmmPartsCampaignComponent"
+      }
+    ],
+    "cmm_additional_reward_rule": [
+      {
+        "column": "campaign_component_id_",
+        "name": "cmmPartsCampaignComponent",
+        "clz": "CmmPartsCampaignComponent"
+      },
+      {
+        "column": "main_reward_id_",
+        "name": "cmmMainRewardRule",
+        "clz": "CmmMainRewardRule"
+      }
+    ]
+  },
+  "oneToMany": {
+    "cmm_parts_campaign_list": [
+      {
+        "column": "campaign_list_id_",
+        "name": "cmmPartsCampaignSupplierInfos",
+        "clz": "CmmPartsCampaignSupplier"
+      },
+      {
+        "column": "campaign_list_id_",
+        "name": "cmmPartsCampaignComponentInfos",
+        "clz": "CmmPartsCampaignComponent"
+      }
+    ],
+    "cmm_parts_campaign_component": [
+      {
+        "column": "campaign_component_id_",
+        "name": "cmmMainRewardRuleInfos",
+        "clz": "CmmMainRewardRule"
+      },
+      {
+        "column": "campaign_component_id_",
+        "name": "cmmAdditionalRewardRuleInfos",
+        "clz": "CmmAdditionalRewardRule"
+      }
+    ]
+  }
+}

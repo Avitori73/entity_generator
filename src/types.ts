@@ -15,8 +15,12 @@ export interface Table {
 
 export interface Option {
   output?: string
-  manyToOne?: ManyToOne[]
-  oneToMany?: OneToMany[]
+  manyToOne?: {
+    [name: string]: ManyToOne[]
+  }
+  oneToMany?: {
+    [name: string]: OneToMany[]
+  }
   placeholder: Placeholder
 }
 

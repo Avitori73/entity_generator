@@ -20,16 +20,15 @@ export class EntityGenerator {
   constructor(createSQL: string, option?: Option) {
     let table = extractTable(createSQL)
 
-    const manyToOneColumns = option?.manyToOne?.map(data => data.name) || []
-    const oneToManyColumns = option?.oneToMany?.map(data => data.name) || []
+    table.manyToOne = option?.manyToOne ? option.manyToOne[table.name] || [] : []
+    table.oneToMany = option?.oneToMany ? option.oneToMany[table.name] || [] : []
+    const manyToOneColumns = table.manyToOne.map(v => v.column)
+    const oneToManyColumns = table.oneToMany.map(v => v.column)
     table = omitColumns(table, [...baseCols, table.primaryKey, ...manyToOneColumns, ...oneToManyColumns])
 
-    table.manyToOne = option?.manyToOne
-    table.oneToMany = option?.oneToMany
     this.table = table
 
     this.output = option?.output || './output'
-
     this.common = { ...this.initCommonPlaceholder(), ...option?.placeholder }
   }
 
