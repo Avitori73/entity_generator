@@ -1,34 +1,32 @@
+import fsp from 'node:fs/promises'
+import t from 'consola'
 import { EntityGenerator } from './EntityGenerator'
+import { clearOutput } from './builder'
 
-const ddl = `
-CREATE TABLE cmm_main_reward_rule (
-  main_reward_id_ varchar(40) DEFAULT ' '::character varying NOT NULL,
-  site_id_ varchar(40) NOT NULL DEFAULT ' '::character varying,
-  campaign_component_id_ varchar(40) DEFAULT ' '::character varying NOT NULL,
-  level_ int4 NOT NULL,
-  from_ numeric(18, 2) NULL,
-  to_ numeric(18, 2) NULL,
-  from_operator_ varchar(2) NULL,
-  to_operator_ varchar(2) NULL,
-  value_ numeric(18, 2) NULL,
-  formula_ varchar(40) NULL,
-  update_author_ varchar(40) DEFAULT ' '::character varying NOT NULL,
-  update_date_ timestamptz NOT NULL,
-  create_author_ varchar(40) DEFAULT ' '::character varying NOT NULL,
-  create_date_ timestamptz NOT NULL,
-  update_program_ varchar(20) DEFAULT ' '::character varying NOT NULL,
-  update_counter_ int4 DEFAULT 0 NOT NULL,
-  CONSTRAINT pk_cmm_main_reward_rule PRIMARY KEY (main_reward_id_)
-);
-`
-
-const entityGenerator = new EntityGenerator(ddl, {
+const opt = {
   placeholder: {
     author: 'zhangjr',
+    version: '0.0.1',
   },
-})
-// clear output folder
-entityGenerator.clearOutput()
-entityGenerator.buildIEntityDao()
-entityGenerator.buildNullEntity()
-entityGenerator.buildEntityDaoImpl()
+}
+
+async function main() {
+  const createSQL = await fsp.readFile('./create.sql', 'utf-8')
+  if (!createSQL) {
+    t.error('create.sql not found!')
+    return
+  }
+  clearOutput('./output')
+
+  const createSQLs = createSQL.split(';')
+  const generators = []
+  for (const sql of createSQLs) {
+    if (sql.trim() === '')
+      continue
+    generators.push(new EntityGenerator(sql, opt).build())
+  }
+  await Promise.all(generators)
+  t.success('All done!')
+}
+
+main()

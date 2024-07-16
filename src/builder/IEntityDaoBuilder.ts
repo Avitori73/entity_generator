@@ -13,7 +13,7 @@ export class IEntityDaoBuilder {
   constructor(table: Table, common: CommonPlaceholder, output: string) {
     this.table = table
     this.placeholders = { ...common }
-    this.output = output
+    this.output = `${output}/java/jp/co/yamaha_motor/xm03/common/dao`
     this.template = I_ENTITY_DAO_JAVA
     this.fileName = 'I{Entity}Dao.java'
   }

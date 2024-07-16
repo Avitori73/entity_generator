@@ -108,7 +108,7 @@ public class {Entity} extends AbstractBaseEntity implements IEntity, java.io.Ser
 
         {builderOneToManyFields}
 
-        public Builder({builderManyToOneDaoArgs}){
+        public Builder({builderManyToOneDaoArg}){
             {builderManyToOneDaoSet}
         }
         
@@ -422,7 +422,7 @@ public interface I{Entity}Dao extends IHibernateDao {
 }
 `
 export const ENTITY_HBM_XML = `
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC
     "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >

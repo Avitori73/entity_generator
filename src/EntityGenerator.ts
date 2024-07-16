@@ -1,5 +1,4 @@
 import * as changeCase from 'change-case'
-import * as rimraf from 'rimraf'
 import { EntityBuilder, EntityDaoImplBuilder, EntityHibernateXmlBuilder, IEntityDaoBuilder, NullEntityBuilder } from './builder'
 import { extractTable, omitColumns } from './parser'
 import type { CommonPlaceholder, Option, Placeholder, Table } from './types'
@@ -48,36 +47,27 @@ export class EntityGenerator {
     }
   }
 
-  build() {
-    this.buildEntity()
-    this.buildNullEntity()
-    this.buildIEntityDao()
-    this.buildEntityDaoImpl()
-    this.buildEntityHibernateXML()
+  async build() {
+    await Promise.all([this.buildEntity(), this.buildNullEntity(), this.buildIEntityDao(), this.buildEntityDaoImpl(), this.buildEntityHibernateXML()])
   }
 
-  buildEntity() {
-    new EntityBuilder(this.table, this.common, this.output).build()
+  async buildEntity() {
+    await new EntityBuilder(this.table, this.common, this.output).build()
   }
 
-  buildNullEntity() {
-    new NullEntityBuilder(this.table, this.common, this.output).build()
+  async buildNullEntity() {
+    await new NullEntityBuilder(this.table, this.common, this.output).build()
   }
 
-  buildIEntityDao() {
-    new IEntityDaoBuilder(this.table, this.common, this.output).build()
+  async buildIEntityDao() {
+    await new IEntityDaoBuilder(this.table, this.common, this.output).build()
   }
 
-  buildEntityDaoImpl() {
-    new EntityDaoImplBuilder(this.table, this.common, this.output).build()
+  async buildEntityDaoImpl() {
+    await new EntityDaoImplBuilder(this.table, this.common, this.output).build()
   }
 
-  buildEntityHibernateXML() {
-    new EntityHibernateXmlBuilder(this.table, this.common, this.output).build()
-  }
-
-  clearOutput() {
-    // clean output folder
-    rimraf.sync(this.output)
+  async buildEntityHibernateXML() {
+    await new EntityHibernateXmlBuilder(this.table, this.common, this.output).build()
   }
 }

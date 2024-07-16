@@ -42,6 +42,56 @@ export interface CommonPlaceholder {
   ENTITY_ID: string
 }
 
+export interface EntityPlaceholder {
+  // imports
+  manyToOneImports: string
+  // static
+  ENTITY_COLUMNS_STATIC: string
+  MANY_TO_ONE_STATIC: string
+  ONE_TO_MANY_STATIC: string
+  // fields
+  entityColumnsFields: string
+  manyToOneFields: string
+  oneToManyFields: string
+  // constructor args
+  entityColumnsConstructorArg: string
+  manyToOneConstructorArg: string
+  oneToManyConstructorArg: string
+  // constructor sets
+  entityColumnsConstructorSet: string
+  manyToOneConstructorSet: string
+  oneToManyConstructorSet: string
+  // builder
+  builderEntityColumnsFields: string
+  builderManyToOneFields: string
+  builderOneToManyFields: string
+  // builder constructor
+  builderManyToOneDaoArg: string
+  builderManyToOneDaoSet: string
+  // builder setters
+  builderManyToOneSetters: string
+  builderEntityColumnsSetters: string
+  builderOneToManySetters: string
+  // builder build
+  builderEntityColumnsBuilds: string
+  builderManyToOneBuilds: string
+  builderOneToManyBuilds: string
+  // setters & getters
+  entityColumnsSettersAndGetters: string
+  manyToOneSettersAndGetters: string
+  oneToManySettersAndGetters: string
+  // copy fields
+  entityColumnsCopyFields: string
+  manyToOneCopyFields: string
+  oneToManyCopyFields: string
+}
+
+export interface HibernatePlaceholder {
+  ColumnsXML: string
+  ManyToOneXML: string
+  OneToManyXML: string
+}
+
 export interface Placeholder {
   [key: string]: string
 }

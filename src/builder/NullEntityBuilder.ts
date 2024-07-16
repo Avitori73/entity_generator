@@ -12,7 +12,7 @@ export class NullEntityBuilder {
   constructor(table: Table, common: CommonPlaceholder, output: string) {
     this.table = table
     this.placeholders = { ...common }
-    this.output = output
+    this.output = `${output}/java/jp/co/yamaha_motor/xm03/common/entity`
     this.template = NULL_ENTITY_JAVA
     this.fileName = 'Null{Entity}.java'
   }

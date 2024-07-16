@@ -1,10 +1,12 @@
 import { promises as fs } from 'node:fs'
 import { format } from 'prettier'
+import xmlFormat from 'xml-formatter'
 import { sync as globSync } from 'glob'
 
 // Prettier 配置
 const prettierConfig = {
   tabWidth: 4,
+  printWidth: 200,
   plugins: ['prettier-plugin-java'],
 }
 
@@ -24,6 +26,9 @@ export async function formatFiles() {
 }
 
 export async function formatForJava(javaContent: string) {
-  const formatted = await format(javaContent, { ...prettierConfig })
-  return formatted
+  return await format(javaContent, { ...prettierConfig, parser: 'java' })
+}
+
+export async function formatForXml(content: string) {
+  return xmlFormat(content)
 }
