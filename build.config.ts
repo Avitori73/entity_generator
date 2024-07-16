@@ -1,7 +1,7 @@
 import { defineBuildConfig } from 'unbuild'
 
 export default defineBuildConfig({
-  entries: ['src/index', 'src/cli'],
+  entries: ['src/index'],
   declaration: true,
   clean: true,
   rollup: {
@@ -10,6 +10,11 @@ export default defineBuildConfig({
   externals: [
     'prettier',
     'glob',
-    'js-sql-parser',
+    'pgsql-ast-parser',
+    'consola',
+    'picocolors',
+    'rimraf',
+    'xml-formatter',
+    'change-case',
   ],
 })

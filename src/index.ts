@@ -11,7 +11,7 @@ const opt = {
 }
 
 async function main() {
-  const refs = await import('../refs.config.json')
+  const refs = await fsp.readFile('./refs.json', 'utf-8').then(JSON.parse).catch(() => ({}))
   const createSQL = await fsp.readFile('./create.sql', 'utf-8')
   if (!createSQL) {
     t.error('create.sql not found!')
