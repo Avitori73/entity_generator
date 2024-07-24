@@ -9,7 +9,7 @@ export class EntityDaoImplBuilder {
   constructor(builderCfg: GeneratorBuilderConfig) {
     this.builder = {
       table: builderCfg.table,
-      placeholders: builderCfg.common,
+      placeholders: { ...builderCfg.common },
       output: `${builderCfg.output}/java/${CONSTANTS.BASE_PATH_DAO_IMPL}`,
       template: ENTITY_DAO_IMPL_JAVA,
       fileName: `{Entity}DaoImpl.java`,

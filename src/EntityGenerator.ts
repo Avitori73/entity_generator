@@ -16,14 +16,15 @@ export class EntityGenerator {
     const oneToManyColumns = table.oneToMany.map(v => v.column)
     table = omitColumns(table, [...CONSTANTS.DEFAULT_COLS, table.primaryKey, ...manyToOneColumns, ...oneToManyColumns])
 
-    const common = { ...this.initCommonPlaceholder(), ...cfg.placeholder }
-
     this.builderCfg = {
       commonDb: cfg.commonDb || false,
       table,
-      common,
+      common: {} as CommonPlaceholder & Placeholder,
       output: cfg.output || './output',
     }
+
+    const common = { ...this.initCommonPlaceholder(), ...cfg.placeholder }
+    this.builderCfg.common = common
   }
 
   initCommonPlaceholder(): CommonPlaceholder {
@@ -37,6 +38,8 @@ export class EntityGenerator {
       entityId: changeCase.camelCase(primaryKey),
       ENTITY_ID: changeCase.constantCase(primaryKey),
       EntityId: changeCase.pascalCase(primaryKey),
+      baseLocEntity: this.builderCfg.commonDb ? CONSTANTS.BASE_LOC_ENTITY_CMMDB : CONSTANTS.BASE_LOC_ENTITY_LOCAL,
+      abstractDb: this.builderCfg.commonDb ? CONSTANTS.CMMDB_ABSTRACT : CONSTANTS.LOCAL_ABSTRACT,
     }
   }
 

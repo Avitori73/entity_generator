@@ -10,7 +10,7 @@ export class NullEntityBuilder {
     this.builder = {
       table: builderCfg.table,
       placeholders: { ...builderCfg.common },
-      output: `${builderCfg.output}/java/${CONSTANTS.BASE_PATH_DAO}`,
+      output: `${builderCfg.output}/java/${builderCfg.commonDb ? CONSTANTS.BASE_PATH_ENTITY_CMMDB : CONSTANTS.BASE_PATH_ENTITY_LOCAL}`,
       template: NULL_ENTITY_JAVA,
       fileName: 'Null{Entity}.java',
     }

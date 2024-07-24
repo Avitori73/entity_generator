@@ -1,5 +1,5 @@
 export const ENTITY_JAVA = `
-package jp.co.yamaha_motor.xm03.common.entity;
+package {baseLocEntity};
 
 import java.util.Date;
 import java.util.HashSet;
@@ -289,7 +289,7 @@ public class {Entity} extends AbstractBaseEntity implements IEntity, java.io.Ser
 `
 
 export const NULL_ENTITY_JAVA = `
-package jp.co.yamaha_motor.xm03.common.entity;
+package {baseLocEntity};
 
 /**
  * @author {author}
@@ -329,7 +329,7 @@ import org.hibernate.Criteria;
 import jp.co.ccs.jail.dao.impl.AbstractHibernateDao;
 import jp.co.yamaha_motor.xm03.common.dao.IBaseQueryDao;
 import jp.co.yamaha_motor.xm03.common.dao.I{Entity}Dao;
-import jp.co.yamaha_motor.xm03.common.entity.{Entity};
+import {baseLocEntity}.{Entity};
 
 /**
  * @author {author}
@@ -339,7 +339,7 @@ import jp.co.yamaha_motor.xm03.common.entity.{Entity};
  * 
  * @spring.bean
  *   name="I{Entity}Dao"
- *   parent="AbstractHibernateCmmDbDao"
+ *   parent="{abstractDb}"
  */
 public class {Entity}DaoImpl extends AbstractHibernateDao implements I{Entity}Dao,IBaseQueryDao<{Entity}> {
 
@@ -396,7 +396,7 @@ export const I_ENTITY_DAO_JAVA = `
 package jp.co.yamaha_motor.xm03.common.dao;
 
 import jp.co.ccs.jail.dao.IHibernateDao;
-import jp.co.yamaha_motor.xm03.common.entity.{Entity};
+import {baseLocEntity}.{Entity};
 
 /**
  * @author {author}
@@ -432,7 +432,7 @@ export const ENTITY_HBM_XML = `
 <!-- Created by EntityGenerator-{version} -->
 
 <class
-    name="jp.co.yamaha_motor.xm03.common.entity.{Entity}"
+    name="{baseLocEntity}.{Entity}"
     table="{table_name}"
     lazy="true"
 >

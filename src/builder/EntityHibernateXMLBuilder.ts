@@ -12,8 +12,8 @@ export class EntityHibernateXmlBuilder {
     this.builder = {
       commonDb: builderCfg.commonDb,
       table: builderCfg.table,
-      placeholders: builderCfg.common,
-      output: `${builderCfg.output}/java/${builderCfg.commonDb ? CONSTANTS.BASE_PATH_ENTITY_CMMDB : CONSTANTS.BASE_PATH_ENTITY_LOCAL}`,
+      placeholders: { ...builderCfg.common },
+      output: `${builderCfg.output}/resources/${builderCfg.commonDb ? CONSTANTS.BASE_PATH_ENTITY_CMMDB : CONSTANTS.BASE_PATH_ENTITY_LOCAL}`,
       template: ENTITY_HBM_XML,
       fileName: '{Entity}.hbm.xml',
     }

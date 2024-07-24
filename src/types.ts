@@ -44,6 +44,8 @@ export interface CommonPlaceholder {
   entityId: string
   entity_id_: string
   ENTITY_ID: string
+  baseLocEntity: string
+  abstractDb: string
 }
 
 export interface EntityPlaceholder {

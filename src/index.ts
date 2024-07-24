@@ -1,33 +1,25 @@
 import fsp from 'node:fs/promises'
+import { info } from 'node:console'
 import t from 'consola'
+import yaml from 'yaml'
 import { EntityGenerator } from './EntityGenerator'
 import { clearOutput } from './builder'
 
-const opt = {
-  placeholder: {
-    author: 'zhangjr',
-    version: '0.0.1',
-  },
-}
+export async function main() {
+  const config = await fsp.readFile('./config.yaml', 'utf-8')
+  const cfg = yaml.parse(config)
 
-async function main() {
-  const refs = await fsp.readFile('./refs.json', 'utf-8').then(JSON.parse).catch(() => ({}))
-  const createSQL = await fsp.readFile('./create.sql', 'utf-8')
-  if (!createSQL) {
-    t.error('create.sql not found!')
-    return
-  }
-  clearOutput('./output')
+  t.info('Start generating entities...')
+  t.info('Clearing output directory...')
+  clearOutput(cfg.output || './output')
+  t.info('Output directory cleared')
 
-  const createSQLs = createSQL.split(';')
-  const generators = []
-  for (const sql of createSQLs) {
-    if (sql.trim() === '')
-      continue
-    generators.push(new EntityGenerator(sql, { ...opt, ...refs }).build())
+  const { generators, infos } = cfg
+
+  for (const generator of generators) {
+    const entityGenerator = new EntityGenerator({ ...generator, placeholder: infos })
+    await entityGenerator.build()
   }
-  await Promise.all(generators)
-  t.success('All done!')
 }
 
 main()

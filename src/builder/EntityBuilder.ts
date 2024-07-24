@@ -12,7 +12,7 @@ export class EntityBuilder {
     this.builder = {
       commonDb: builderCfg.commonDb,
       table: builderCfg.table,
-      placeholders: builderCfg.common,
+      placeholders: { ...builderCfg.common },
       output: `${builderCfg.output}/java/${builderCfg.commonDb ? CONSTANTS.BASE_PATH_ENTITY_CMMDB : CONSTANTS.BASE_PATH_ENTITY_LOCAL}`,
       template: ENTITY_JAVA,
       fileName: `{Entity}.java`,

@@ -1,0 +1,75 @@
+generators:
+  - createSQL: |
+      CREATE TABLE points_summary (
+        points_summary_id_ varchar(40) DEFAULT ' '::character varying NOT NULL,
+        site_id_ varchar(40) DEFAULT ' '::character varying NOT NULL,
+        point_supplier_id_ varchar(40) NOT NULL,
+        earned_points_ numeric(18, 2) NOT NULL,
+        balance_points_ numeric(18, 2) NOT NULL,
+        redeemed_points_ numeric(18, 2) NOT NULL,
+        update_author_ varchar(40) DEFAULT ' '::character varying NOT NULL,
+        update_date_ timestamptz NOT NULL,
+        create_author_ varchar(40) DEFAULT ' '::character varying NOT NULL,
+        create_date_ timestamptz NOT NULL,
+        update_program_ varchar(20) DEFAULT ' '::character varying NOT NULL,
+        update_counter_ int4 DEFAULT 0 NOT NULL,
+        CONSTRAINT pk_points_summary PRIMARY KEY (points_summary_id_)
+      );
+  - createSQL: |
+      CREATE TABLE points_transaction (
+        points_transaction_id_ varchar(40) DEFAULT ' '::character varying NOT NULL,
+        site_id_ varchar(40) DEFAULT ' '::character varying NOT NULL,
+        points_summary_id_ varchar(40) DEFAULT ' '::character varying NOT NULL,
+        category_ varchar(40) NOT NULL,
+        date_ varchar(8) NOT NULL,
+        points_ numeric(18, 2) NOT NULL,
+        balance_points_ numeric(18, 2) NOT NULL,
+        description_ varchar(255) NULL,
+        campaign_component_id_ varchar(40) NULL,
+        update_author_ varchar(40) DEFAULT ' '::character varying NOT NULL,
+        update_date_ timestamptz NOT NULL,
+        create_author_ varchar(40) DEFAULT ' '::character varying NOT NULL,
+        create_date_ timestamptz NOT NULL,
+        update_program_ varchar(20) DEFAULT ' '::character varying NOT NULL,
+        update_counter_ int4 DEFAULT 0 NOT NULL,
+        CONSTRAINT pk_points_transaction PRIMARY KEY (points_transaction_id_)
+      );
+    manyToOne:
+      - name: pointsSummary
+        clz: PointsSummary
+        column: points_summary_id_
+    oneToMany:
+      - name: pointsReceiveDetail
+        clz: PointsReceiveDetail
+        column: points_transaction_id_
+  - createSQL: |
+      CREATE TABLE points_receive_detail (
+        points_receive_detail_id_ varchar(40) DEFAULT ' '::character varying NOT NULL,
+        points_transaction_id_ varchar(40) DEFAULT ' '::character varying NOT NULL,
+        site_id_ varchar(40) DEFAULT ' '::character varying NOT NULL,
+        product_code_ varchar(40) NOT NULL,
+        product_name_ varchar(40) NULL,
+        product_supplier_code_ varchar(40) NOT NULL,
+        product_supplier_name_ varchar(40) NULL,
+        main_reward_points_ numeric(18, 2) NOT NULL,
+        addi_reward_points_ numeric(18, 2) NOT NULL,
+        main_accumulated_metric_ numeric(18, 2) NOT NULL,
+        addi_accumulated_metric_ numeric(18, 2) NOT NULL,
+        matched_main_rule_id_ varchar(40) NOT NULL,
+        matched_addi_rule_id_ varchar(40) NULL,
+        update_author_ varchar(40) DEFAULT ' '::character varying NOT NULL,
+        update_date_ timestamptz NOT NULL,
+        create_author_ varchar(40) DEFAULT ' '::character varying NOT NULL,
+        create_date_ timestamptz NOT NULL,
+        update_program_ varchar(20) DEFAULT ' '::character varying NOT NULL,
+        update_counter_ int4 DEFAULT 0 NOT NULL,
+        CONSTRAINT pk_points_receive_detail PRIMARY KEY (points_receive_detail_id_)
+      );
+    manyToOne:
+      - name: pointsTransaction
+        clz: PointsTransaction
+        column: points_transaction_id_
+
+infos:
+  author: zhangjr
+  version: 0.0.1

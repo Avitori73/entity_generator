@@ -11,6 +11,9 @@ const BASE_PATH_ENTITY_CMMDB = changeCase.pathCase(BASE_LOC_ENTITY_CMMDB)
 const BASE_PATH_DAO = changeCase.pathCase(BASE_LOC_DAO)
 const BASE_PATH_DAO_IMPL = changeCase.pathCase(BASE_LOC_DAO_IMPL)
 
+const CMMDB_ABSTRACT = 'AbstractHibernateCmmDbDao'
+const LOCAL_ABSTRACT = 'AbstractHibernateDao'
+
 const DEFAULT_COLS = [
   'update_author_',
   'update_date_',
@@ -30,5 +33,7 @@ export default {
   BASE_PATH_DAO_IMPL,
   BASE_PATH_ENTITY_LOCAL,
   BASE_PATH_ENTITY_CMMDB,
+  CMMDB_ABSTRACT,
+  LOCAL_ABSTRACT,
   DEFAULT_COLS,
 }
