@@ -1,23 +1,22 @@
 import * as changeCase from 'change-case'
-import type { CommonPlaceholder, HibernatePlaceholder, Placeholder, Table } from '../types'
+import type { Builder, GeneratorBuilderConfig, HibernatePlaceholder } from '../types'
+import CONSTANTS from '../constants'
 import { ENTITY_HBM_XML } from './templates'
 import { builderBuild, datatypeHibernateMapping } from './utils'
 
 export class EntityHibernateXmlBuilder {
-  table: Table
-  placeholders: Placeholder
-  output: string
-  template: string
-  fileName: string
+  builder: Builder
   hibernatePlaceholders: HibernatePlaceholder
 
-  constructor(table: Table, common: CommonPlaceholder, output: string) {
-    this.table = table
-    this.placeholders = { ...common }
-    this.output = `${output}/resources/jp/co/yamaha_motor/xm03/entity`
-    this.template = ENTITY_HBM_XML
-    this.fileName = '{Entity}.hbm.xml'
-
+  constructor(builderCfg: GeneratorBuilderConfig) {
+    this.builder = {
+      commonDb: builderCfg.commonDb,
+      table: builderCfg.table,
+      placeholders: builderCfg.common,
+      output: `${builderCfg.output}/java/${builderCfg.commonDb ? CONSTANTS.BASE_PATH_ENTITY_CMMDB : CONSTANTS.BASE_PATH_ENTITY_LOCAL}`,
+      template: ENTITY_HBM_XML,
+      fileName: '{Entity}.hbm.xml',
+    }
     this.hibernatePlaceholders = this.initHibernatePlaceholders()
   }
 
@@ -33,12 +32,21 @@ export class EntityHibernateXmlBuilder {
     this.buildColumnsXML()
     this.buildManyToOneXML()
     this.buildOneToManyXML()
-    this.placeholders = { ...this.placeholders, ...this.hibernatePlaceholders }
-    await builderBuild(this.fileName, this.template, this.placeholders, this.output)
+    this.builder.placeholders = { ...this.builder.placeholders, ...this.hibernatePlaceholders }
+    await builderBuild(this.builder.fileName, this.builder.template, this.builder.placeholders, this.builder.output)
   }
 
+  /**
+   * Generator property XML
+   * <property
+   *  name="entityCol"
+   *  type="java.lang.String"
+   *  column="entity_col_"
+   *  length="255"
+   * />
+   */
   buildColumnsXML() {
-    const columns = this.table.columns
+    const columns = this.builder.table.columns
     const columnsCase = columns.map(col => ({
       type: datatypeHibernateMapping(col.type),
       camelCase: changeCase.camelCase(col.name),
@@ -54,14 +62,24 @@ export class EntityHibernateXmlBuilder {
       />`).join('\n')
   }
 
+  /**
+   * Generator many-to-one XML
+   * <many-to-one
+   *  name="ParentEntityInfo"
+   *  class="PATH_LOCAL_OR_CMMDB.ParentEntity"
+   * >
+   *    <column name="parent_entity_id_" />
+   * </many-to-one>
+   */
   buildManyToOneXML() {
-    const manyToOne = this.table.manyToOne
+    const commonDb = this.builder.commonDb || false
+    const manyToOne = this.builder.table.manyToOne
     if (!manyToOne)
       return
     const manyToOneCase = manyToOne.map(mto => ({
       camelCase: `${changeCase.camelCase(mto.name)}Info`,
       columnName: mto.column,
-      ref: `jp.co.yamaha_motor.xm03.common.entity.${mto.clz}`,
+      ref: `${commonDb ? CONSTANTS.BASE_LOC_ENTITY_CMMDB : CONSTANTS.BASE_LOC_ENTITY_LOCAL}.${mto.clz}`,
     }))
     this.hibernatePlaceholders.ManyToOneXML = manyToOneCase.map(mto =>
       `<many-to-one
@@ -72,14 +90,31 @@ export class EntityHibernateXmlBuilder {
       </many-to-one>`).join('\n')
   }
 
+  /**
+   * Generator one-to-many XML
+   * <set
+   *   name="ChildEntityInfos"
+   *   lazy="true"
+   *   inverse="true"
+   *   cascade="all-delete-orphan"
+   * >
+   *   <key>
+   *     <column name="parent_entity_id_" />
+   *   </key>
+   *   <one-to-many
+   *     class="PATH_LOCAL_OR_CMMDB.ChildEntity"
+   *   />
+   * </set>
+   */
   buildOneToManyXML() {
-    const oneToMany = this.table.oneToMany
+    const commonDb = this.builder.commonDb || false
+    const oneToMany = this.builder.table.oneToMany
     if (!oneToMany)
       return
     const oneToManyCase = oneToMany.map(otm => ({
       camelCase: `${changeCase.camelCase(otm.name)}Infos`,
       columnName: otm.column,
-      ref: `jp.co.yamaha_motor.xm03.common.entity.${otm.clz}`,
+      ref: `${commonDb ? CONSTANTS.BASE_LOC_ENTITY_CMMDB : CONSTANTS.BASE_LOC_ENTITY_LOCAL}.${otm.clz}`,
     }))
     this.hibernatePlaceholders.OneToManyXML = oneToManyCase.map(otm =>
       `<set
@@ -89,11 +124,11 @@ export class EntityHibernateXmlBuilder {
           cascade="all-delete-orphan"
       >
         <key>
-            <column name="${otm.columnName}" />
+          <column name="${otm.columnName}" />
         </key>
 
         <one-to-many
-            class="${otm.ref}"
+          class="${otm.ref}"
         />
       </set>`).join('\n')
   }

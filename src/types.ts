@@ -99,3 +99,28 @@ export interface HibernatePlaceholder {
 export interface Placeholder {
   [key: string]: string
 }
+
+export interface GeneratorConfig {
+  commonDb?: boolean
+  createSQL: string
+  oneToMany?: ManyToOne[]
+  manyToOne?: OneToMany[]
+  output?: string
+  placeholder?: Placeholder
+}
+
+export interface GeneratorBuilderConfig {
+  commonDb: boolean
+  table: Table
+  common: CommonPlaceholder & Placeholder
+  output: string
+}
+
+export interface Builder {
+  commonDb?: boolean
+  table: Table
+  placeholders: Placeholder
+  output: string
+  template: string
+  fileName: string
+}

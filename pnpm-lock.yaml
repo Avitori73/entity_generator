@@ -65,6 +65,9 @@ importers:
       xml-formatter:
         specifier: ^3.6.3
         version: 3.6.3
+      yaml:
+        specifier: ^2.4.5
+        version: 2.4.5
 
 packages:
 

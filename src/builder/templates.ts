@@ -4,6 +4,7 @@ package jp.co.yamaha_motor.xm03.common.entity;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.math.BigDecimal;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -338,7 +339,7 @@ import jp.co.yamaha_motor.xm03.common.entity.{Entity};
  * 
  * @spring.bean
  *   name="I{Entity}Dao"
- *   parent="AbstractHibernateDao"
+ *   parent="AbstractHibernateCmmDbDao"
  */
 public class {Entity}DaoImpl extends AbstractHibernateDao implements I{Entity}Dao,IBaseQueryDao<{Entity}> {
 
