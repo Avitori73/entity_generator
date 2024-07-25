@@ -143,7 +143,7 @@ export class EntityBuilder {
           return this;
       }`).join('\n')
     holder.builderManyToOneBuilds = manyToOneCases.map(mto =>
-      `if (StringUtils.isNotBlank(${mto.id}) && campaignDao.get(${mto.id}) != null){
+      `if (StringUtils.isNotBlank(${mto.id}) && ${mto.dao}.get(${mto.id}) != null){
           this.${mto.camelCase} = ${mto.dao}.get(${mto.id});
       }
 
@@ -170,6 +170,7 @@ export class EntityBuilder {
       camelCase: `${changeCase.camelCase(otm.clz)}Infos`,
       constantCase: `${changeCase.constantCase(otm.clz)}_INFOS`,
       pascalCase: `${changeCase.pascalCase(otm.clz)}Infos`,
+      selfPascalCase: `${changeCase.pascalCase(this.builder.table.name)}Info`,
     }))
     holder.ONE_TO_MANY_STATIC = oneToManyCases.map(otm => `public static final String ${otm.constantCase} = "${otm.camelCase}";`).join('\n')
     holder.oneToManyFields = oneToManyCases.map(otm => `private Set<${otm.type}> ${otm.camelCase} = new HashSet<${otm.type}>();`).join('\n')
@@ -177,14 +178,14 @@ export class EntityBuilder {
     holder.oneToManyConstructorSet = oneToManyCases.map(otm => `this.${otm.camelCase} = ${otm.camelCase};`).join('\n')
     holder.builderOneToManyFields = oneToManyCases.map(otm => `private Set<IBuilder> ${otm.camelCase} = new HashSet<IBuilder>();`).join('\n')
     holder.builderOneToManySetters = oneToManyCases.map(otm =>
-      `public Builder set${otm.pascalCase}(Set<IBuilder> ${otm.camelCase}) {
+      `public Builder set${otm.pascalCase}(IBuilder ${otm.camelCase}) {
           this.${otm.camelCase}.add(${otm.camelCase});
           return this;
       }`).join('\n')
     holder.builderOneToManyBuilds = oneToManyCases.map(otm =>
       `for (IBuilder<${otm.type}> member : ${otm.camelCase}) {
           ${otm.type}.Builder builder = (${otm.type}.Builder) member;
-          builder.set${otm.pascalCase}(result);
+          builder.set${otm.selfPascalCase}(result);
           result.get${otm.pascalCase}().add(member.build());
       }`).join('\n')
     holder.oneToManySettersAndGetters = oneToManyCases.map(otm =>
