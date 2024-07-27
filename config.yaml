@@ -3,7 +3,7 @@ generators:
       CREATE TABLE points_summary (
         points_summary_id_ varchar(40) DEFAULT ' '::character varying NOT NULL,
         site_id_ varchar(40) DEFAULT ' '::character varying NOT NULL,
-        point_supplier_id_ varchar(40) NOT NULL,
+        point_supplier_code_ varchar(40) NOT NULL,
         earned_points_ numeric(18, 2) NOT NULL,
         balance_points_ numeric(18, 2) NOT NULL,
         redeemed_points_ numeric(18, 2) NOT NULL,
@@ -72,4 +72,3 @@ generators:
 
 infos:
   author: zhangjr
-  version: 0.0.1

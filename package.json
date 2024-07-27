@@ -1,7 +1,7 @@
 {
   "name": "entity_generator",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "packageManager": "pnpm@9.5.0",
   "description": "An entity generator from DDL",
   "author": "Avitori",
