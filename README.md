@@ -36,8 +36,8 @@ infos:
 ```
 - `generator` 为一个数组，可以配置多张表同时生成，其中每个数据的对象配置字段如下：
   - `createSQL`：该 SQL 语句直接通过 DBeaver 的 DDL 完全复制即可。
-  - `manyToOne`（Optional）：配置父表对象，其中 `name` 为 `camelCase`, `clz` 为 父表对应的 `Entity` 类名，`column`：对表中关联父表的字段名。
-  - `oneToMany`（Optional）：配置子对象集合，其中 `name` 为 `camelCase`, `clz` 为 子表对应的 `Entity` 类名，`column`：为当前 `Entity` 对应的 `id`。
+  - `manyToOne`（Optional）：配置父表对象，其中 `name` 为 `camelCase`, `clz` 为 父表对应的 `Entity` 类名，`column` 对表中关联父表的字段名。
+  - `oneToMany`（Optional）：配置子对象集合，其中 `name` 为 `camelCase`, `clz` 为 子表对应的 `Entity` 类名，`column` 为当前 `Entity` 对应的 `id`。
   - `commomDb`（Optional）：如果是 `cmmDb` 的 `Entity` 请配置为 `true`，默认为 `false`。
 - `infos`：暂时只有配置一个 `author`。
 
