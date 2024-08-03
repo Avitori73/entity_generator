@@ -14,6 +14,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import jp.co.yamaha_motor.commons.core.util.DateUtil;
 import jp.co.yamaha_motor.commons.yfc.utility.entity.IEntity;
 import jp.co.yamaha_motor.xm03.common.builder.IBuilder;
+{commonDbImports}
 {manyToOneImports}
 import jp.co.yamaha_motor.xm03.common.utils.UuidGenerator;
 

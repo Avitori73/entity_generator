@@ -4,6 +4,11 @@ import type { Builder, EntityPlaceholder, GeneratorBuilderConfig } from '../type
 import { ENTITY_JAVA } from './templates'
 import { builderBuild, datatypeJavaMapping } from './utils'
 
+const commonDbImports = [
+  'import jp.co.yamaha_motor.xm03.common.entity.AbstractBaseEntity;',
+  'import jp.co.yamaha_motor.xm03.common.entity.INullable;',
+]
+
 export class EntityBuilder {
   builder: Builder
   entityPlaceholder: EntityPlaceholder
@@ -18,12 +23,16 @@ export class EntityBuilder {
       fileName: `{Entity}.java`,
     }
     this.entityPlaceholder = this.initPlaceholders()
+    if (builderCfg.commonDb) {
+      this.entityPlaceholder.commonDbImports = commonDbImports.join('\n')
+    }
   }
 
   initPlaceholders() {
     return {
       // imports
       manyToOneImports: '',
+      commonDbImports: '',
       // static
       ENTITY_COLUMNS_STATIC: '',
       MANY_TO_ONE_STATIC: '',

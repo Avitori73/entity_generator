@@ -51,6 +51,7 @@ export interface CommonPlaceholder {
 export interface EntityPlaceholder {
   // imports
   manyToOneImports: string
+  commonDbImports: string
   // static
   ENTITY_COLUMNS_STATIC: string
   MANY_TO_ONE_STATIC: string
