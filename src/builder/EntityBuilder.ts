@@ -127,7 +127,7 @@ export class EntityBuilder {
       dao: `${changeCase.camelCase(mto.clz)}Dao`,
       IDao: `I${changeCase.pascalCase(mto.clz)}Dao`,
       camelCase: `${changeCase.camelCase(mto.clz)}Info`,
-      constantCase: `${changeCase.constantCase(mto.clz)}_INFO`,
+      constantCase: `ENTITY_${changeCase.constantCase(mto.clz)}_INFO`,
       pascalCase: `${changeCase.pascalCase(mto.clz)}Info`,
     }))
     holder.MANY_TO_ONE_STATIC = manyToOneCases.map(mto => `public static final String ${mto.constantCase} = "${mto.camelCase}";`).join('\n')
@@ -177,7 +177,7 @@ export class EntityBuilder {
     const oneToManyCases = oneToMany.map(otm => ({
       type: otm.clz,
       camelCase: `${changeCase.camelCase(otm.clz)}Infos`,
-      constantCase: `${changeCase.constantCase(otm.clz)}_INFOS`,
+      constantCase: `ENTITY_${changeCase.constantCase(otm.clz)}_INFOS`,
       pascalCase: `${changeCase.pascalCase(otm.clz)}Infos`,
       selfPascalCase: `${changeCase.pascalCase(this.builder.table.name)}Info`,
     }))
